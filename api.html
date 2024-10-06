@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Tiempo</title>
+  <link rel="stylesheet" href="api.css">
+</head>
+<body>
+  <div class="container">
+    <h1>El Tiempo</h1>
+    <div class="cities"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('https://www.el-tiempo.net/api/json/v2/home')
+        .then(response => response.json())
+        .then(data => {
+          const citiesContainer = document.querySelector('.cities');
+          data.ciudades.forEach(city => {
+            const cityDiv = document.createElement('div');
+            cityDiv.classList.add('city');
+
+            const weatherDiv = document.createElement('div');
+            weatherDiv.classList.add('weather');
+
+            const img = document.createElement('img');
+            img.src = getWeatherIcon(city.stateSky.description);
+
+            const weatherInfoDiv = document.createElement('div');
+            weatherInfoDiv.classList.add('weather-info');
+
+            const cityName = document.createElement('h2');
+            cityName.textContent = city.name;
+
+            const temperature = document.createElement('p');
+            temperature.textContent = `Temperatura: Máx ${city.temperatures.max}°C - Min ${city.temperatures.min}°C`;
+
+            const description = document.createElement('p');
+            description.textContent = city.stateSky.description;
+
+            weatherInfoDiv.appendChild(cityName);
+            weatherInfoDiv.appendChild(temperature);
+            weatherInfoDiv.appendChild(description);
+
+            weatherDiv.appendChild(img);
+            weatherDiv.appendChild(weatherInfoDiv);
+
+            cityDiv.appendChild(weatherDiv);
+
+            citiesContainer.appendChild(cityDiv);
+          });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+    });
+
+    function getWeatherIcon(description) {
+      switch (description) {
+        case 'Despejado':
+          return 'https://v5i.tutiempo.net/wi/01/50/1.png';
+        case 'Cubierto con lluvia':
+          return 'https://v5i.tutiempo.net/wi/01/50/2.png';
+        default:
+          return 'https://v5i.tutiempo.net/wi/01/50/4.png';
+      }
+    }
+  </script>
+</body>
+</html>

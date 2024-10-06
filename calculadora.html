@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Oscar</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="calculadora.css">
+</head>
+<body>
+
+<div class="container">
+  <h1 class="text-center">Calculadora de Oscar</h1>
+  <div class="calculator">
+    <input type="text" id="display" class="form-control mb-2" disabled>
+    <div class="row">
+      <button class="btn btn-danger" onclick="clearDisplay()">C</button>
+      <button class="btn btn-danger" onclick="backspace()">←</button>
+      <button class="btn btn-warning" onclick="appendChar('%')">%</button>
+      <button class="btn btn-primary" onclick="appendChar('/')">/</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-secondary" onclick="appendChar('7')">7</button>
+      <button class="btn btn-secondary" onclick="appendChar('8')">8</button>
+      <button class="btn btn-secondary" onclick="appendChar('9')">9</button>
+      <button class="btn btn-primary" onclick="appendChar('*')">*</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-secondary" onclick="appendChar('4')">4</button>
+      <button class="btn btn-secondary" onclick="appendChar('5')">5</button>
+      <button class="btn btn-secondary" onclick="appendChar('6')">6</button>
+      <button class="btn btn-primary" onclick="appendChar('-')">-</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-secondary" onclick="appendChar('1')">1</button>
+      <button class="btn btn-secondary" onclick="appendChar('2')">2</button>
+      <button class="btn btn-secondary" onclick="appendChar('3')">3</button>
+      <button class="btn btn-primary" onclick="appendChar('+')">+</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-secondary" onclick="appendChar('0')">0</button>
+      <button class="btn btn-secondary" onclick="appendChar('.')">.</button>
+      <button class="btn btn-success" onclick="calculate()">=</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-warning" onclick="calculateSquare()">x²</button>
+      <button class="btn btn-warning" onclick="calculateSquareRoot()">√</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function clearDisplay() {
+    document.getElementById('display').value = '';
+  }
+
+  function backspace() {
+    var display = document.getElementById('display');
+    display.value = display.value.slice(0, -1);
+  }
+
+  function appendChar(char) {
+    document.getElementById('display').value += char;
+  }
+
+  function calculate() {
+    var display = document.getElementById('display');
+    try {
+      display.value = eval(display.value);
+    } catch (error) {
+      display.value = 'Error';
+    }
+  }
+
+  function calculateSquare() {
+    var display = document.getElementById('display');
+    var value = parseFloat(display.value);
+    display.value = value * value;
+  }
+
+  function calculateSquareRoot() {
+    var display = document.getElementById('display');
+    var value = parseFloat(display.value);
+    display.value = Math.sqrt(value);
+  }
+</script>
+
+</body>
+</html>
